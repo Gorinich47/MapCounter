@@ -1,15 +1,23 @@
 package com.mapcounter;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class App
 {
     public static void main( String[] args ){
 
         String[] arr = {"a", "b", "c", "a"}; // проверочный массив
-        Map<String, Integer> maps= counter(arr); // вызов метода
+        Map<String, Long> maps= counter(arr); // вызов метода.
         System.out.println( maps);
+        Map<String, Long> maps2= Arrays.stream(arr)
+                .collect(
+                        Collectors.groupingBy(e->e,
+                                Collectors.counting()));
+
+        System.out.println( maps2);
     }
 
     /**
@@ -18,10 +26,10 @@ public class App
      * @return Map<T,Integer> где T - тип объекта
      * @param <T>
      */
-    static <T> Map<T, Integer> counter(T[] array){
-       Map<T,Integer> map = new HashMap<>();
+    static <T> Map<T, Long> counter(T[] array){
+       Map<T,Long> map = new HashMap<>();
        for(T elem: array){
-            Integer value = map.getOrDefault(elem, 0);
+           Long value = map.getOrDefault(elem, 0L);
             map.put(elem, value+1);
         }
         return map;
